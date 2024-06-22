@@ -140,16 +140,71 @@ return(Rules)
 end proc:
 </Text-field>
 </Input>
-<Input><Text-field prompt="&gt; " style="Maple Input" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false"></Text-field>
+<Input><Text-field prompt="&gt; " style="Maple Input" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false">fillrows:= proc(Rules, firstrow, numrows)
+  local i, j, width, allrows;
+  allrows:= table();
+  width:=nops(firstrow);
+  for j from 0 to width-1 do
+      allrows[1, j]:=firstrow[j+1];
+  end do;
+  for i from 2 to numrows do
+    for j from 0 to width-1 do
+      allrows[i, j]:=Rules[allrows[i-1, j-1 mod width], allrows[i-1, j], allrows[i-1, j+1 mod width]];
+    end do;
+  end do;
+  return(allrows);
+end proc:
+
+drawcell:= proc(i, j, contents)
+  local theplot;
+  theplot:=[plottools:-line([i,j], [i+1, j], color=gray), plottools:-line([i+1,j+1], [i, j+1], color=gray)];
+  if (i+j) mod 2 = 0 then theplot:=[op(theplot), plottools:-line([i+0.5, j], [i+0.5, j+1], color=gray)] end if;
+  if contents=[[L], d] then theplot:=[op(theplot), plottools:-line([i+1, j], [i, j+1])]
+    elif contents=[[R], d] then theplot:=[op(theplot), plottools:-line([i, j], [i+1, j+1])]
+    elif contents=[[L,R], d] then theplot:=[op(theplot), plottools:-line([i+1, j], [i, j+1]), plottools:-line([i, j], [i+.3, j+.3]), plottools:-line([i+.7, j+.7], [i+1, j+1])]
+    elif contents=[[R,L], d] then theplot:=[op(theplot), plottools:-line([i, j], [i+1, j+1]), plottools:-line([i+1, j], [i+.7, j+.3]), plottools:-line([i+.3, j+.7], [i, j+1])] 
+    elif contents=[[L], u] then theplot:=[op(theplot), plottools:-line([i, j], [i, j+1])]
+    elif contents=[[R], u] then theplot:=[op(theplot), plottools:-line([i+1, j], [i+1, j+1])]
+    elif contents=[[L,R], u] then theplot:=[op(theplot), plottools:-line([i, j], [i, j+1]), plottools:-line([i+1, j], [i+1, j+1])]
+    elif contents=[[R,L], u] then theplot:=[op(theplot), plottools:-line([i, j], [i, j+1]), plottools:-line([i+1, j], [i+1, j+1])] 
+  end if;
+  return(theplot)
+end proc:
+  
+drawgrid:=proc(rowtable, width, numrows)
+  local i, j, theplot;
+  theplot:=[];
+  for i from 1 to numrows do
+    for j from 0 to width-1 do
+      theplot:=[op(theplot), op(drawcell(j, i, rowtable[i,j]))];
+    end do;
+    theplot:=[op(theplot), op(drawcell(-1, i, rowtable[i,width-1]))];
+  end do;
+  plots:-display(theplot, scaling=constrained, axes=none, view=[-0.5..width-0.5, 0..numrows+1]);
+end proc:
+
+drawrows:=proc(rulenum1, rulenum2, firstrow, numrows)
+   local grid, Rules;
+   Rules:=setupruletable(rulenum1, rulenum2);
+   grid:=fillrows(Rules, firstrow, numrows);
+   drawgrid(grid, nops(firstrow), numrows);
+end proc:
+            </Text-field>
 </Input>
 </Group></Presentation-Block><Presentation-Block>
-<Group view="presentation" inline-output="false" labelreference="L2306" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
-<Input><Text-field style="Text" layout="Normal"><Equation executable="true" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2I1EhRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1Enbm9ybWFsRic=">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYjLUkjbWlHRiQ2I1EhRic=</Equation></Text-field>
+<Group view="presentation" hide-output="false" inline-output="false" labelreference="L2306" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
+<Input><Text-field style="Text" layout="Normal"><Equation executable="true" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYnLUkjbWlHRiQ2JVEld2l0aEYnLyUnaXRhbGljR1EldHJ1ZUYnLyUsbWF0aHZhcmlhbnRHUSdpdGFsaWNGJy1JKG1mZW5jZWRHRiQ2JC1GIzYlLUYsNiVRL0NvZGVHZW5lcmF0aW9uRidGL0YyLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvRjNRJ25vcm1hbEYnRkAtSSNtb0dGJDYtUSI6RidGQC8lJmZlbmNlR0Y/LyUqc2VwYXJhdG9yR0Y/LyUpc3RyZXRjaHlHRj8vJSpzeW1tZXRyaWNHRj8vJShsYXJnZW9wR0Y/LyUubW92YWJsZWxpbWl0c0dGPy8lJ2FjY2VudEdGPy8lJ2xzcGFjZUdRLDAuMjc3Nzc3OGVtRicvJSdyc3BhY2VHRlZGPUZA">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYnLUkjbWlHRiQ2JVEld2l0aEYnLyUnaXRhbGljR1EldHJ1ZUYnLyUsbWF0aHZhcmlhbnRHUSdpdGFsaWNGJy1JKG1mZW5jZWRHRiQ2JC1GIzYlLUYsNiVRL0NvZGVHZW5lcmF0aW9uRidGL0YyLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvRjNRJ25vcm1hbEYnRkAtSSNtb0dGJDYtUSI6RidGQC8lJmZlbmNlR0Y/LyUqc2VwYXJhdG9yR0Y/LyUpc3RyZXRjaHlHRj8vJSpzeW1tZXRyaWNHRj8vJShsYXJnZW9wR0Y/LyUubW92YWJsZWxpbWl0c0dGPy8lJ2FjY2VudEdGPy8lJ2xzcGFjZUdRLDAuMjc3Nzc3OGVtRicvJSdyc3BhY2VHRlZGPUZA</Equation></Text-field>
 </Input>
 </Group></Presentation-Block><Presentation-Block>
-<Group view="presentation" hide-input="false" hide-output="true" inline-output="false" labelreference="L2076" drawlabel="true">
-<Input><Text-field style="Text" layout="Normal"><Equation executable="true" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2I1EhRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1Enbm9ybWFsRic=">JSFH</Equation></Text-field>
+<Group view="presentation" hide-input="false" hide-output="false" inline-output="false" labelreference="L2076" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Equation executable="true" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2JVEnUHl0aG9uRicvJSdpdGFsaWNHUSV0cnVlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLUkobWZlbmNlZEdGJDYkLUYjNiUtRiw2JVEvc2V0dXBydWxldGFibGVGJ0YvRjIvJStleGVjdXRhYmxlR1EmZmFsc2VGJy9GM1Enbm9ybWFsRidGQEY9RkA=">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2JVEnUHl0aG9uRicvJSdpdGFsaWNHUSV0cnVlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLUkobWZlbmNlZEdGJDYkLUYjNiUtRiw2JVEvc2V0dXBydWxldGFibGVGJ0YvRjIvJStleGVjdXRhYmxlR1EmZmFsc2VGJy9GM1Enbm9ybWFsRidGQEY9RkA=</Equation></Text-field>
 </Input>
+<Output><Text-field style="HyperlinkWarning" layout="HyperlinkWarning"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Warning,%20type%20signature%20%5Binteger,%20list,%20CodeGeneration%3A-Names%3A-untyped%5D%20for%20function%20member%20is%20not%20recognized" hyperlink="true"><Font style="HyperlinkWarning">Warning, type signature [integer, list, CodeGeneration:-Names:-untyped] for function member is not recognized</Font></Hyperlink></Text-field>
+</Output>
+<Output><Text-field style="HyperlinkWarning" layout="HyperlinkWarning"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Warning,%20type%20signature%20%5Binteger,%20list,%20integer%5D%20for%20function%20member%20is%20not%20recognized" hyperlink="true"><Font style="HyperlinkWarning">Warning, type signature [integer, list, integer] for function member is not recognized</Font></Hyperlink></Text-field>
+</Output>
+<Output><Text-field style="HyperlinkError" layout="HyperlinkError"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Error,%20(in%20CodeGeneration%3A-IssueError)%20cannot%20resolve%20types%20in%20%7Binteger,%20list%7D" hyperlink="true"><Font style="HyperlinkError">Error, (in CodeGeneration:-IssueError) cannot resolve types in {integer, list}</Font></Hyperlink></Text-field>
+</Output>
 </Group></Presentation-Block><Presentation-Block>
 <Group autoexecute="true" view="code" labelreference="L2064" drawlabel="true">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">setupcelltodigittable:= proc()
@@ -185,14 +240,23 @@ setupdigittocelltable:= proc()
 end proc:
 </Text-field>
 </Input>
-<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">Python(setupcelltodigittable)
+
 </Text-field>
 </Input>
+<Output><Text-field style="HyperlinkError" layout="HyperlinkError"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Error,%20(in%20apply)%20invalid%20input%3A%20TableHandler%20uses%20a%201st%20argument,%20e,%20which%20is%20missing" hyperlink="true"><Font style="HyperlinkError">Error, (in apply) invalid input: TableHandler uses a 1st argument, e, which is missing</Font></Hyperlink></Text-field>
+</Output>
+</Group>
+<Group view="code" labelreference="L2307" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal"><Equation executable="true" style="2D Input" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYuLUkjbWlHRiQ2JVEnUHl0aG9uRicvJSdpdGFsaWNHUSV0cnVlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLUkobWZlbmNlZEdGJDYkLUYjNiUtRiw2JVE2c2V0dXBkaWdpdHRvY2VsbHRhYmxlRidGL0YyLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvRjNRJ25vcm1hbEYnRkAtRiw2I1EhRictSSdtc3BhY2VHRiQ2Ji8lJ2hlaWdodEdRJjAuMGV4RicvJSZ3aWR0aEdRJjAuMGVtRicvJSZkZXB0aEdGSi8lKmxpbmVicmVha0dRKG5ld2xpbmVGJy1GRjYmRkhGS0ZOL0ZRUSVhdXRvRidGRUZTRkVGU0ZCRj1GQA==">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYuLUkjbWlHRiQ2JVEnUHl0aG9uRicvJSdpdGFsaWNHUSV0cnVlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLUkobWZlbmNlZEdGJDYkLUYjNiUtRiw2JVE2c2V0dXBkaWdpdHRvY2VsbHRhYmxlRidGL0YyLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvRjNRJ25vcm1hbEYnRkAtRiw2I1EhRictSSdtc3BhY2VHRiQ2Ji8lJ2hlaWdodEdRJjAuMGV4RicvJSZ3aWR0aEdRJjAuMGVtRicvJSZkZXB0aEdGSi8lKmxpbmVicmVha0dRKG5ld2xpbmVGJy1GRjYmRkhGS0ZOL0ZRUSVhdXRvRidGRUZTRkVGU0ZCRj1GQA==</Equation></Text-field>
+</Input>
+<Output><Text-field style="HyperlinkError" layout="HyperlinkError"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Error,%20(in%20apply)%20invalid%20input%3A%20TableHandler%20uses%20a%201st%20argument,%20e,%20which%20is%20missing" hyperlink="true"><Font style="HyperlinkError">Error, (in apply) invalid input: TableHandler uses a 1st argument, e, which is missing</Font></Hyperlink></Text-field>
+</Output>
 </Group>
 <Group view="code" hide-input="false" labelreference="L2063" drawlabel="true">
 <Input><Text-field style="Text" layout="Normal"></Text-field><Text-field prompt="&gt; " style="Maple Input" layout="Normal"></Text-field>
 </Input>
-</Group></Presentation-Block><Presentation-Block><CodeEditor-ExecGroup autoexecute="true" view="presentation" hide-input="false" inline-output="false" labelreference="L2310" drawlabel="true" applyint="true" applyrational="true" display="code"><EC-CodeEditor id="CodeEditRegion0" expanded="true" visible="true" pixel-width="500" pixel-height="200" code-language="text/maple" autofit="true" wrapping="true" show-border="true" code-line-numbers="true">writegollyrule:=proc(rulenumber1::integer, rulenumber2::integer)
+</Group></Presentation-Block><Presentation-Block><CodeEditor-ExecGroup view="presentation" hide-input="false" inline-output="false" labelreference="L2310" drawlabel="true" applyint="true" applyrational="true" display="code"><EC-CodeEditor id="CodeEditRegion0" expanded="true" visible="true" pixel-width="500" pixel-height="200" code-language="text/maple" autofit="true" wrapping="true" show-border="true" code-line-numbers="true">writegollyrule:=proc(rulenumber1::integer, rulenumber2::integer)
 	local i, k, Rules, Dtc, Ctd, filenamestring, outfile;
 	Rules:=setupruletable(rulenumber1, rulenumber2);
 	Dtc := setupdigittocelltable();
@@ -222,8 +286,35 @@ end proc:
 end proc:
 </EC-CodeEditor></CodeEditor-ExecGroup></Presentation-Block><Presentation-Block>
 <Group view="code" hide-input="false" labelreference="L2308" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
-<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal"><Equation executable="true" style="2D Input" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2JVEvd3JpdGVnb2xseXJ1bGVGJy8lJ2l0YWxpY0dRJXRydWVGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRictSShtZmVuY2VkR0YkNiQtRiM2Jy1JI21uR0YkNiRRIjBGJy9GM1Enbm9ybWFsRictSSNtb0dGJDYtUSIsRidGPi8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGMS8lKXN0cmV0Y2h5R0ZGLyUqc3ltbWV0cmljR0ZGLyUobGFyZ2VvcEdGRi8lLm1vdmFibGVsaW1pdHNHRkYvJSdhY2NlbnRHRkYvJSdsc3BhY2VHUSYwLjBlbUYnLyUncnNwYWNlR1EsMC4zMzMzMzMzZW1GJ0Y6LyUrZXhlY3V0YWJsZUdGRkY+Rj5GWUY+">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2JVEvd3JpdGVnb2xseXJ1bGVGJy8lJ2l0YWxpY0dRJXRydWVGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRictSShtZmVuY2VkR0YkNiQtRiM2Jy1JI21uR0YkNiRRIjBGJy9GM1Enbm9ybWFsRictSSNtb0dGJDYtUSIsRidGPi8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGMS8lKXN0cmV0Y2h5R0ZGLyUqc3ltbWV0cmljR0ZGLyUobGFyZ2VvcEdGRi8lLm1vdmFibGVsaW1pdHNHRkYvJSdhY2NlbnRHRkYvJSdsc3BhY2VHUSYwLjBlbUYnLyUncnNwYWNlR1EsMC4zMzMzMzMzZW1GJ0Y6LyUrZXhlY3V0YWJsZUdGRkY+Rj5GWUY+</Equation></Text-field>
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal"><Equation executable="true" style="2D Input" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYnLUkjbWlHRiQ2JVEvQ29kZUdlbmVyYXRpb25GJy8lJ2l0YWxpY0dRJXRydWVGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRictSShtZmVuY2VkR0YkNiYtRiM2JS1GLDYlUSdQeXRob25GJ0YvRjIvJStleGVjdXRhYmxlR1EmZmFsc2VGJy9GM1Enbm9ybWFsRidGQC8lJW9wZW5HUSJbRicvJSZjbG9zZUdRIl1GJy1GNjYkLUYjNiUtRiw2JVEvd3JpdGVnb2xseXJ1bGVGJ0YvRjJGPUZARkBGPUZA">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYnLUkjbWlHRiQ2JVEvQ29kZUdlbmVyYXRpb25GJy8lJ2l0YWxpY0dRJXRydWVGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRictSShtZmVuY2VkR0YkNiYtRiM2JS1GLDYlUSdQeXRob25GJ0YvRjIvJStleGVjdXRhYmxlR1EmZmFsc2VGJy9GM1Enbm9ybWFsRidGQC8lJW9wZW5HUSJbRicvJSZjbG9zZUdRIl1GJy1GNjYkLUYjNiUtRiw2JVEvd3JpdGVnb2xseXJ1bGVGJ0YvRjJGPUZARkBGPUZA</Equation></Text-field>
 </Input>
+<Output><Text-field style="HyperlinkWarning" layout="HyperlinkWarning"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Warning,%20the%20function%20names%20%7Bfclose,%20fopen,%20fprintf,%20setupruletable,%20setupcelltodigittable,%20setupdigittocelltable%7D%20are%20not%20recognized%20in%20the%20target%20language" hyperlink="true"><Font style="HyperlinkWarning">Warning, the function names {fclose, fopen, fprintf, setupruletable, setupcelltodigittable, setupdigittocelltable} are not recognized in the target language</Font></Hyperlink></Text-field>
+</Output>
+<Output><Text-field style="Line Printed Output" layout="Line Printed Output">def writegollyrule (rulenumber1, rulenumber2):
+    Rules = setupruletable(rulenumber1, rulenumber2)
+    Dtc = setupdigittocelltable()
+    Ctd = setupcelltodigittable()
+    filenamestring = sprintf(&quot;../Rules/SCA-C%dT%d.rule&quot;, rulenumber1, rulenumber2)
+    outfile = fopen(filenamestring, WRITE, TEXT)
+<Font encoding="UTF-8">    fprintf(outfile, &quot;@RULE SCA-C%dT%d\134n\134n&quot;, rulenumber1, rulenumber2)
+    fprintf(outfile, &quot;@TABLE\134n\134n&quot;)
+    fprintf(outfile, &quot;n_states:10\134n&quot;)
+    fprintf(outfile, &quot;neighborhood:Moore\134n&quot;)
+    fprintf(outfile, &quot;symmetries:none\134n&quot;)
+    fprintf(outfile, &quot;var c={1,2,3,4,5,6,7,8,9}\134n&quot;)
+    fprintf(outfile, &quot;var d={1,2,3,4,5,6,7,8,9}\134n&quot;)
+    fprintf(outfile, &quot;var e={1,2,3,4,5,6,7,8,9}\134n\134n&quot;)
+</Font>    for i in range(0, 10):
+        for k in range(0, 10):
+<Font encoding="UTF-8">            fprintf(outfile, &quot;0,0,0,0,%d,0,%d,0,0,%d\134n&quot;, k, i, Ctd[Rules[Dtc[i - 1] - 1, Dtc[-1] - 1, Dtc[k - 1] - 1] - 1])
+    fprintf(outfile, &quot;0,0,0,0,0,c,0,0,0,0 #empty cells by parity\134n&quot;)
+    fprintf(outfile, &quot;0,0,0,0,c,d,e,0,0,0 #malformed\134n&quot;)
+    fprintf(outfile, &quot;0,0,0,0,0,d,e,0,0,0 #malformed\134n&quot;)
+    fprintf(outfile, &quot;0,0,0,0,c,d,0,0,0,0 #malformed\134n&quot;)
+    fprintf(outfile, &quot;#anything else stays as is\134n\134n&quot;)
+</Font>    return(fclose(outfile))
+</Text-field>
+</Output>
 </Group>
 <Group autoexecute="true" view="code" hide-input="false" labelreference="L2061" drawlabel="true">
 <Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal"></Text-field>
