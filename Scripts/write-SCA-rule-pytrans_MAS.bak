@@ -330,13 +330,13 @@ end proc:
 </Input>
 <Output><Text-field style="HyperlinkWarning" layout="HyperlinkWarning"><Hyperlink linktarget="http://www.maplesoft.com/support/help/errors/view.aspx?path=Warning,%20the%20function%20names%20%7Bfclose,%20fopen,%20fprintf,%20setupruletable,%20setupcelltodigittable,%20setupdigittocelltable%7D%20are%20not%20recognized%20in%20the%20target%20language" hyperlink="true"><Font style="HyperlinkWarning">Warning, the function names {fclose, fopen, fprintf, setupruletable, setupcelltodigittable, setupdigittocelltable} are not recognized in the target language</Font></Hyperlink></Text-field>
 </Output>
-<Output><Text-field style="Line Printed Output" layout="Line Printed Output">def writegollyrule (rulenumber1, rulenumber2):
-    Rules = setupruletable(rulenumber1, rulenumber2)
+<Output><Text-field style="Line Printed Output" layout="Line Printed Output">def writegollyrule (crossingrule, turningrule):
+    Rules = setupruletable(crossingrule, turningrule)
     Dtc = setupdigittocelltable()
     Ctd = setupcelltodigittable()
-    filenamestring = sprintf(&quot;../Rules/SCA-C%dT%d.rule&quot;, rulenumber1, rulenumber2)
+    filenamestring = sprintf(&quot;../Rules/SCA-C%dT%d.rule&quot;, crossingrule, turningrule)
     outfile = fopen(filenamestring, WRITE, TEXT)
-<Font encoding="UTF-8">    fprintf(outfile, &quot;@RULE SCA-C%dT%d\134n\134n&quot;, rulenumber1, rulenumber2)
+<Font encoding="UTF-8">    fprintf(outfile, &quot;@RULE SCA-C%dT%d\134n\134n&quot;, crossingrule, turningrule)
     fprintf(outfile, &quot;@TABLE\134n\134n&quot;)
     fprintf(outfile, &quot;n_states:10\134n&quot;)
     fprintf(outfile, &quot;neighborhood:Moore\134n&quot;)
