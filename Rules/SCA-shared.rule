@@ -20,7 +20,7 @@ symmetries:none
 2 right upright
 3 left, right upright
 4 right, left upright (currently same as 3, but not for Friendship SCAs)
-5 empty (currently same as 0)
+5 empty (currently dummy for brick boundaries)
 6 left slanted
 7 right slanted
 8 left, right slanted
@@ -33,7 +33,7 @@ symmetries:none
 2 255 255 255   white
 3 255 255 255   white
 4 255 255 255   white
-5  48  48  48   dark gray
+5 200 200 200   dark gray
 6 255	0	0	red
 7   0 255 255	cyan 
 8 255	0	0	red
@@ -81,14 +81,14 @@ XPM
 "A.....A"
 "A.....A"
 "A.....A"
-/* icon for state 5 empty */
-"......."
-"......."
-"......."
-"......."
-"......."
-"......."
-"......."
+/* icon for state 5 dummy */
+"AAAAAAA"
+"...A..."
+"...A..."
+"...A..."
+"...A..."
+"...A..."
+"AAAAAAA"
 /* icon for state 6 left, slanted */
 "A......"
 ".A....."

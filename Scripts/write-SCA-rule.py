@@ -1,3 +1,11 @@
+# Implements Stranded Cellular Automata (first defined in https://archive.bridgesmathart.org/2016/bridges2016-127.html) in Golly.
+#
+# Rules/SCA-shared.rule should be in your personal rule directory.  Scripts/write-SCA-rule.py takes a turning rule number and a crossing rule number, generates a Golly rule file in your personal rule directory, and then loads it up.
+#
+# contact:  holden@rose-hulman.edu
+
+
+
 import golly as g
 
 def setupruletable (crossingrule, turningrule):
@@ -93,7 +101,7 @@ def writegollyrule (turningrule, crossingrule):
     Rules = setupruletable(crossingrule, turningrule)
     Dtc = setupdigittocelltable()
     Ctd = setupcelltodigittable()
-    filenamestring = "../Rules/SCA-T%dC%d.rule" % (turningrule, crossingrule)
+    filenamestring = g.getdir('rules') + "SCA-T%dC%d.rule" % (turningrule, crossingrule)
     outfile = open(filenamestring, 'w')
     print("@RULE SCA-T%dC%d\n" % (turningrule, crossingrule), file=outfile)
     print("@TABLE\n", file=outfile)
@@ -122,3 +130,4 @@ crossingrule = int(g.getstring("Enter the Crossing Rule number, from 0 to 511:",
 writegollyrule(turningrule, crossingrule)
 
 g.setrule("SCA-T%dC%d" % (turningrule, crossingrule))
+g.show('Created '+"SCA-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule.')
