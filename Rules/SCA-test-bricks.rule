@@ -1,0 +1,174 @@
+@RULE SCA-test
+
+Testing Stranded Cellular automata rules
+
+@TABLE
+
+# Golly rule-table format.
+# Each rule: C,N,NE,E,SE,S,SW,W,NW,C'
+#
+# Default for transitions not listed: no change
+#
+# Variables are bound within each transition. 
+# For example, if a={1,2} then 4,a,0->a represents
+# two transitions: 4,1,0->1 and 4,2,0->2
+# (This is why we need to repeat the variables below.
+#  In this case the method isn't really helping.)
+
+n_states:10
+neighborhood:Moore
+symmetries:none
+var z={0,5} #empty cells
+var y={0,5} #empty cells
+var a={1,3,4,6,8,9} #strands at top left
+var b={2,3,4,7,8,9} #strands at top right
+var c={1,2,3,4,6,7,8,9} #non-empty
+var d={1,2,3,4,6,7,8,9} #non-empty
+var e={1,2,3,4,6,7,8,9} #non-empty
+var f={0,2,5,7} #no strands at top left
+var g={0,1,5,6} #no strands at top right
+var h={0,1,2,3,4,5,6,7,8,9} #anything
+
+0,0,0,0,a,z,b,0,0,8 #two inputs
+0,0,0,0,a,z,g,0,0,2 #no strand from left
+0,0,0,0,f,z,b,0,0,1 #no srand from right
+0,0,0,0,c,z,d,0,0,0 #other inputs
+0,0,0,0,z,c,y,0,0,5 #dummy cells by parity
+0,0,0,c,0,0,0,h,0,5 # "repair" dummies in the first row
+0,0,0,h,0,0,0,c,0,5 # "repair" dummies in the first row
+0,0,0,0,c,d,e,0,0,0 #malformed
+0,0,0,0,0,d,e,0,0,0 #malformed
+0,0,0,0,c,d,0,0,0,0 #malformed
+#anything else stays as is
+
+
+@NAMES
+
+# these state names are not yet used by Golly
+0 empty
+1 left upright
+2 right upright
+3 left, right upright
+4 right, left upright (currently same as 3, but not for Friendship SCAs)
+5 empty (currently dummy for brick boundaries)
+6 left slanted
+7 right slanted
+8 left, right slanted
+9 right, left slanted
+
+@COLORS
+
+0  48  48  48   dark gray
+1 255 255 255   white
+2 255 255 255   white
+3 255 255 255   white
+4 255 255 255   white
+5 255 255 255   white
+6 255   0   0	red
+7   0 255 255	cyan 
+8 255	0	0	red
+9   0 255 255	cyan 
+
+
+@ICONS
+
+# icon info is in XPM format (order is not important)
+
+XPM
+/* width height num_colors chars_per_pixel */
+"7 63 3 1"
+/* colors */
+". c #000000"
+"- c #444444"
+"A c #FFFFFF"
+
+/* icon for state 1 (left upright)*/
+"A------"
+"A......"
+".A....."
+".A....."
+".A....."
+"A......"
+"A------"
+/* icon for state 2 (right upright) */
+"------A"
+"......A"
+".....A."
+".....A."
+".....A."
+"......A"
+"------A"
+/* icon for state 3 left, right upright*/
+"A-----A"
+"A.....A"
+".A...A."
+".A...A."
+".A...A."
+"A.....A"
+"A-----A"
+/* icon for state 4 right, left upright*/
+"A-----A"
+"A.....A"
+"A.....A"
+"A.....A"
+"A.....A"
+"A.....A"
+"A-----A"
+/* icon for state 5 dummy */
+"-------"
+"...-..."
+"...-..."
+"...-..."
+"...-..."
+"...-..."
+"-------"
+/* icon for state 6 left, slanted */
+"A------"
+".A....."
+"..A...."
+"...A..."
+"....A.."
+".....A."
+"------A"
+/* icon for state 7 right, slanted*/
+"-..-..A"
+".....A."
+"....A.."
+"...A..."
+"..A...."
+".A....."
+"A..-..-"
+/* icon for state 8 left, right slanted*/
+"A-----A"
+".A...A."
+"..A...."
+"...A..."
+"....A.."
+".A...A."
+"A-----A"
+/* icon for state 9 right, left slanted*/
+"A..-..A"
+".....A."
+"....A.."
+"...A..."
+"..A...."
+".A....."
+"A..-..A"
+
+
+XPM
+/* width height num_colors chars_per_pixel */
+"31 279 3 1"
+/* colors */
+". c #000000"
+"- c #444444"
+"A c #FFFFFF"
+
+/* icon for state 1 (left upright)*/
+"A------"
+"A......"
+".A....."
+".A....."
+".A....."
+"A......"
+"A------"
