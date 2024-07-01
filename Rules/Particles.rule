@@ -1,0 +1,96 @@
+@RULE Particles
+
+@TABLE
+
+# Each rule: C,N,NE,E,SE,S,SW,W,NW,C'
+# 8,1,2
+# 7,0,3
+# 6,5,4
+# 
+# 0=Ground
+# 1=Electron Head
+# 2=Dynamic Electron Head
+# 3=Electron Tail
+# 4=Block
+# 5=Turn
+# 6=Transforming Turn
+# 7=Moving Block
+# 8=Moving Turn
+# 9=Moving Transforming Turn
+
+
+n_states:10
+neighborhood:Moore
+symmetries:rotate4reflect
+
+# All
+var a={0,1,2,3,4,5,6,7,8,9}
+var b={0,1,2,3,4,5,6,7,8,9}
+var c={0,1,2,3,4,5,6,7,8,9}
+var d={0,1,2,3,4,5,6,7,8,9}
+var e={0,1,2,3,4,5,6,7,8,9}
+var f={0,1,2,3,4,5,6,7,8,9}
+var g={0,1,2,3,4,5,6,7,8,9}
+var h={0,1,2,3,4,5,6,7,8,9}
+
+# All except tail
+var i={0,1,2,4,5,6,7,8,9}
+var j={0,1,2,4,5,6,7,8,9}
+var k={0,1,2,4,5,6,7,8,9}
+var l={0,1,2,4,5,6,7,8,9}
+
+# All except heads
+var m={0,3,4,5,6,7,8,9}
+var n={0,3,4,5,6,7,8,9}
+
+# Heads
+var o={1,2}
+
+# Blocks and Turns
+var p={4,5,6}
+
+# Moving Blocks and Turns
+var q={7,8,9}
+
+
+# New Block or Turn
+0,2,i,2,j,m,a,n,k,4
+0,2,i,m,j,2,k,n,l,4
+0,2,i,2,j,2,k,m,l,5
+0,2,i,2,j,2,k,2,l,6
+
+# Move Electrons
+0,o,i,m,a,b,c,n,j,o
+o,a,b,c,d,e,f,g,h,3
+3,a,b,c,d,e,f,g,h,0
+
+# Turn Electrons
+0,5,a,b,c,m,d,o,3,o
+0,6,a,b,c,m,d,1,3,2
+0,6,a,b,c,m,d,2,3,1
+
+# Push Blocks and Turns
+4,2,i,a,b,c,d,e,j,7
+5,2,i,a,b,c,d,e,j,8
+6,2,i,a,b,c,d,e,j,9
+a,7,i,b,c,d,e,f,j,4
+a,8,i,b,c,d,e,f,j,5
+a,9,i,b,c,d,e,f,j,6
+q,a,b,c,d,e,f,g,h,0
+
+# Remove Block or Turn
+p,2,i,2,j,a,b,c,j,0
+p,2,i,a,j,2,k,b,l,0
+
+@COLORS
+
+0  48  48  48     dark gray
+1   0 128 255     light blue
+2   0 128 164     green-blue
+3 255 255 255     white
+4 255 148   0     orange
+5 207  16  32     lava red
+6 255  32 128     red
+7 255 208  48     dull orange
+8 225  92 102     dull lava red
+9 255  96 164     dull red

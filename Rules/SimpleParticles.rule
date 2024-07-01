@@ -1,0 +1,58 @@
+@RULE SimpleParticles
+
+@TABLE
+
+# Each rule: C,N,NE,E,SE,S,SW,W,NW,C'
+# 8,1,2
+# 7,0,3
+# 6,5,4
+# 
+# 0=Ground
+# 1=Electron Head
+# 2=Electron Head
+# 3=Electron Tail
+# 4=Block
+# 5=Turn
+
+
+n_states:6
+neighborhood:Moore
+symmetries:rotate4reflect
+
+# All
+var a={0,1,2,3,4,5}
+var b={0,1,2,3,4,5}
+var c={0,1,2,3,4,5}
+var d={0,1,2,3,4,5}
+var e={0,1,2,3,4,5}
+var f={0,1,2,3,4,5}
+var g={0,1,2,3,4,5}
+var h={0,1,2,3,4,5}
+
+# All except tail
+var i={0,1,2,4,5}
+var j={0,1,2,4,5}
+
+# All except heads
+var m={0,3,4,5}
+var n={0,3,4,5}
+
+# Heads
+var o={1,2}
+
+# Move Electrons
+0,o,i,m,a,b,c,n,j,1
+o,a,b,c,d,e,f,g,h,3
+3,a,b,c,d,e,f,g,h,0
+
+# Turn Electrons
+0,5,a,b,c,m,d,o,3,1
+
+@COLORS
+
+0  48  48  48     dark gray
+1   0 128 255     light blue
+2   0 128 255     light-blue
+3 255 255 255     white
+4 255 148   0     orange
+5 207  16  32     lava red
