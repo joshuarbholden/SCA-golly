@@ -315,9 +315,9 @@ def export_icons(iconsection, rulename):
         g.update()
     
     if fileexists:
-        g.note("Updated the icon data in " + rulename)
+        g.note("Updated the icon data in " + str(rulepath))
     else:
-        g.note("Created " + rulename)
+        g.note("Created " + str(rulepath))
 
 # --------------------------------------------------------------------
 
