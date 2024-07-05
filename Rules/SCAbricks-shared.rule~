@@ -1,0 +1,123 @@
+@RULE SCA-shared
+
+This file contains the icons shared by all SCA-* rules.
+
+@TABLE
+
+n_states:10
+neighborhood:Moore
+symmetries:none
+# do nothing
+
+
+
+
+@NAMES
+
+# these state names are not yet used by Golly
+0 empty
+1 left upright
+2 right upright
+3 left, right upright
+4 right, left upright (currently same as 3, but not for Friendship SCAs)
+5 empty (currently dummy for brick boundaries)
+6 left slanted
+7 right slanted
+8 left, right slanted
+9 right, left slanted
+
+@COLORS
+
+0  48  48  48   dark gray
+1 255 255 255   white
+2 255 255 255   white
+3 255 255 255   white
+4 255 255 255   white
+5 200 200 200   dark gray
+6 255	0	0	red
+7   0 255 255	cyan 
+8 255	0	0	red
+9   0 255 255	cyan 
+
+@ICONS
+
+# icon info is in XPM format (order is not important)
+
+XPM
+/* width height num_colors chars_per_pixel */
+"7 63 2 1"
+/* colors */
+". c #000000"
+"A c #FFFFFF"
+/* icon for state 1 (left upright)*/
+"A......"
+"A......"
+".A....."
+".A....."
+".A....."
+"A......"
+"A......"
+/* icon for state 2 (right upright) */
+"......A"
+"......A"
+".....A."
+".....A."
+".....A."
+"......A"
+"......A"
+/* icon for state 3 left, right upright*/
+"A.....A"
+"A.....A"
+".A...A."
+".A...A."
+".A...A."
+"A.....A"
+"A.....A"
+/* icon for state 4 right, left upright*/
+"A.....A"
+"A.....A"
+"A.....A"
+"A.....A"
+"A.....A"
+"A.....A"
+"A.....A"
+/* icon for state 5 dummy */
+"AAAAAAA"
+"...A..."
+"...A..."
+"...A..."
+"...A..."
+"...A..."
+"AAAAAAA"
+/* icon for state 6 left, slanted */
+"A......"
+".A....."
+"..A...."
+"...A..."
+"....A.."
+".....A."
+"......A"
+/* icon for state 7 right, slanted*/
+"......A"
+".....A."
+"....A.."
+"...A..."
+"..A...."
+".A....."
+"A......"
+/* icon for state 8 left, right slanted*/
+"A.....A"
+".A....."
+"..A...."
+"...A..."
+"....A.."
+".....A."
+"A.....A"
+/* icon for state 9 right, left slanted*/
+"A.....A"
+".....A."
+"....A.."
+"...A..."
+"..A...."
+".A....."
+"A.....A"

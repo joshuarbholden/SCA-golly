@@ -55,17 +55,16 @@ var h={0,1,2,3,4,5,6,7,8,9} #anything
 
 
 # these state names are not yet used by Golly
-0 empty
+0 dead (off the board)
 1 left upright
 2 right upright
 3 left, right upright
 4 right, left upright (currently same as 3, but not for Friendship SCAs)
 5 empty (currently dummy for brick boundaries)
-6 left slanted
-7 right slanted
-8 left, right slanted
-9 right, left slanted
-
+6 left slanted (S)
+7 right slanted (Z)
+8 left, right slanted (S)
+9 right, left slanted (Z)
 
 @COLORS
 
