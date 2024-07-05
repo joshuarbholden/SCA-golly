@@ -69,7 +69,7 @@ def setupruletable (crossingrule, turningrule):
 
 def setupcelltodigittable ():
     celltodigit = dict()
-    celltodigit[((),"e")] = 0
+    celltodigit[((),"e")] = 10
     celltodigit[(("L",),"u")] = 1
     celltodigit[(("R",),"u")] = 2
     celltodigit[(("L","R"),"u")] = 3
@@ -93,6 +93,7 @@ def setupdigittocelltable ():
     digittocell[7] = (("R",),"d")
     digittocell[8] = (("L","R"),"d")
     digittocell[9] = (("R","L"),"d")
+    digittocell[10] = ((),"e")
     return(digittocell)
 
 
@@ -108,21 +109,26 @@ def writegollyrule (turningrule, crossingrule):
     print("n_states:11", file=outfile)
     print("neighborhood:Moore", file=outfile)
     print("symmetries:none", file=outfile)
-    print("var z={0,5,10} #empty cells", file=outfile)
-    print("var y={0,5,10} #empty cells", file=outfile)
-    print("var c={1,2,3,4,6,7,8,9,10}", file=outfile)
-    print("var d={1,2,3,4,6,7,8,9,10}", file=outfile)
-    print("var e={1,2,3,4,6,7,8,9,10}\n", file=outfile)
-    print("var h={0,1,2,3,4,5,6,7,8,9,10} #anything", file=outfile)
-    for i in range(0, 10):
-        for k in range(0, 10):
-            print("0,0,0,0,%d,z,%d,0,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
-    print("0,0,0,0,z,c,y,0,0,5 #dummy cells by parity", file=outfile)
+    print("var z={0,5} #dead or dummy cells", file=outfile)
+  #  print("var y={0,5} #dead or dummy cells", file=outfile)
+    print("var c={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
+    print("var d={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
+    print("var e={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
+    print("var h={0,1,2,3,4,5,6,7,8,9,10} #anything\n", file=outfile)
+   # print("0,0,0,0,z,c,y,0,0,5 #dummy cells by parity", file=outfile)
+    print("0,0,0,0,5,h,5,0,0,5 #dummy cells by parity", file=outfile)
+    print("0,0,0,0,5,h,0,0,0,5 #dummy cells by parity", file=outfile)
+    print("0,0,0,0,0,h,5,0,0,5 #dummy cells by parity", file=outfile)
+    print("0,0,0,0,0,c,0,0,0,5 #dummy cells by parity", file=outfile) 
     print("0,0,0,c,0,0,0,h,0,5 # 'repair' dummies in the first row", file=outfile)
     print("0,0,0,h,0,0,0,c,0,5 # 'repair' dummies in the first row", file=outfile)
     print("0,0,0,0,c,d,e,0,0,0 #malformed", file=outfile)
     print("0,0,0,0,0,d,e,0,0,0 #malformed", file=outfile)
-    print("0,0,0,0,c,d,0,0,0,0 #malformed", file=outfile)
+    print("0,0,0,0,c,d,0,0,0,0 #malformed\n", file=outfile) 
+    for i in range(0, 11):
+        for k in range(0, 11):
+            if (i !=0) or (k !=0):
+                print("0,0,0,0,%d,z,%d,0,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
     print("#anything else stays as is\n", file=outfile)
     return(outfile.close())
 
