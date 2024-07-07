@@ -1,9 +1,6 @@
 # Implements Stranded Cellular Automata (first defined in https://archive.bridgesmathart.org/2016/bridges2016-127.html) in Golly.
 #
-# Rules/SCA-shared.rule should be in your personal rule directory.
-# Scripts/write-SCA-rule.py takes a turning rule number and a crossing
-# rule number, generates a Golly rule file in your personal rule
-# directory, and then loads it up.
+# Rules/SCA-shared.rule should be in your personal rule directory.  Scripts/write-SCA-rule.py takes a turning rule number and a crossing rule number, generates a Golly rule file in your personal rule directory, and then loads it up.
 #
 # contact:  holden@rose-hulman.edu
 
@@ -72,7 +69,7 @@ def setupruletable (crossingrule, turningrule):
 
 def setupcelltodigittable ():
     celltodigit = dict()
-    celltodigit[((),"e")] = 10
+    celltodigit[((),"e")] = 0
     celltodigit[(("L",),"u")] = 1
     celltodigit[(("R",),"u")] = 2
     celltodigit[(("L","R"),"u")] = 3
@@ -96,42 +93,31 @@ def setupdigittocelltable ():
     digittocell[7] = (("R",),"d")
     digittocell[8] = (("L","R"),"d")
     digittocell[9] = (("R","L"),"d")
-    digittocell[10] = ((),"e")
     return(digittocell)
 
 
 
-def writegollyrule (turningrule, crossingrule, brickstring):
+def writegollyrule (turningrule, crossingrule):
     Rules = setupruletable(crossingrule, turningrule)
     Dtc = setupdigittocelltable()
     Ctd = setupcelltodigittable()
-    filenamestring = g.getdir('rules') + "SCA" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)
+    filenamestring = g.getdir('rules') + "SCA-T%dC%d.rule" % (turningrule, crossingrule)
     outfile = open(filenamestring, 'w')
-    print("@RULE SCA" + brickstring + "-T%dC%d\n" % (turningrule, crossingrule), file=outfile)
+    print("@RULE SCA-T%dC%d\n" % (turningrule, crossingrule), file=outfile)
     print("@TABLE\n", file=outfile)
-    print("n_states:11", file=outfile)
+    print("n_states:10", file=outfile)
     print("neighborhood:Moore", file=outfile)
     print("symmetries:none", file=outfile)
-    print("var z={0,5} #dead or dummy cells", file=outfile)
-  #  print("var y={0,5} #dead or dummy cells", file=outfile)
-    print("var c={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
-    print("var d={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
-    print("var e={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
-    print("var h={0,1,2,3,4,5,6,7,8,9,10} #anything\n", file=outfile)
-   # print("0,0,0,0,z,c,y,0,0,5 #dummy cells by parity", file=outfile)
-    print("0,0,0,0,5,h,5,0,0,5 #dummy cells by parity", file=outfile)
-    print("0,0,0,0,5,h,0,0,0,5 #dummy cells by parity", file=outfile)
-    print("0,0,0,0,0,h,5,0,0,5 #dummy cells by parity", file=outfile)
-    print("0,0,0,0,0,c,0,0,0,5 #dummy cells by parity", file=outfile) 
-    print("0,0,0,c,0,0,0,h,0,5 # 'repair' dummies in the first row", file=outfile)
-    print("0,0,0,h,0,0,0,c,0,5 # 'repair' dummies in the first row", file=outfile)
+    print("var c={1,2,3,4,5,6,7,8,9}", file=outfile)
+    print("var d={1,2,3,4,5,6,7,8,9}", file=outfile)
+    print("var e={1,2,3,4,5,6,7,8,9}\n", file=outfile)
+    for i in range(0, 10):
+        for k in range(0, 10):
+            print("0,0,0,0,%d,0,%d,0,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
+    print("0,0,0,0,0,c,0,0,0,0 #empty cells by parity", file=outfile)
     print("0,0,0,0,c,d,e,0,0,0 #malformed", file=outfile)
     print("0,0,0,0,0,d,e,0,0,0 #malformed", file=outfile)
-    print("0,0,0,0,c,d,0,0,0,0 #malformed\n", file=outfile) 
-    for i in range(0, 11):
-        for k in range(0, 11):
-            if (i !=0) or (k !=0):
-                print("0,0,0,0,%d,z,%d,0,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
+    print("0,0,0,0,c,d,0,0,0,0 #malformed", file=outfile)
     print("#anything else stays as is\n", file=outfile)
     return(outfile.close())
 
@@ -140,15 +126,8 @@ turningrule = int(g.getstring("Enter the Turning Rule number, from 0 to 511:",
                   
 crossingrule = int(g.getstring("Enter the Crossing Rule number, from 0 to 511:",
                   "0", "SCA Crossing Rule"))
-
-showbricks = (g.getstring("Would you like to show the brick boundaries (y/N)?",
-                          "N", "Brick Boundaries")).upper()[0]
                   
-if (showbricks == "Y"):
-    brickstring = "bricks"
-else:
-    brickstring = ""
-writegollyrule(turningrule, crossingrule, brickstring)
-  
-g.setrule("SCA" + brickstring + "-T%dC%d" % (turningrule, crossingrule))
-g.show('Created '+"SCA" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule.')
+writegollyrule(turningrule, crossingrule)
+
+g.setrule("SCA-T%dC%d" % (turningrule, crossingrule))
+g.show('Created '+"SCA-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule.')

@@ -11,9 +11,7 @@ symmetries:none
 
 
 
-
 @NAMES
-
 
 # these state names are not yet used by Golly
 0 dead (off the board)
@@ -30,7 +28,6 @@ symmetries:none
 
 
 @COLORS
-
 
 0  48  48  48   dark gray
 1 255 255 255   white
