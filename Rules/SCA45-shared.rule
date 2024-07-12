@@ -1,54 +1,17 @@
-@RULE SCA45-test
+@RULE SCA45-shared
 
-
-Testing Stranded Cellular automata rules on the diamond grid.  
-
-Von Neumann neighborhood, but procedes from SE to NW, for compatibility with future 
-hex version.  ("Brick" grid is rotated 45 degrees CCW to get "diamond" grid, so "Left" 
-is S, "Right" is E.)
-
+This file contains the icons shared by all SCAbricks-* rules.
 
 @TABLE
 
-
-# Golly rule-table format.
-# Each rule: C,N,E,S,W,C' (von Neumann neighborhood)
-#
-# Default for transitions not listed: no change
-#
-# Variables are bound within each transition.
-# For example, if a={1,2} then 4,a,0->a represents
-# two transitions: 4,1,0->1 and 4,2,0->2
-
-
-n_states:10
-neighborhood:vonNeumann
+n_states:11
+neighborhood:Moore
 symmetries:none
-var z={0,5} #empty cells
-var y={0,5} #empty cells
-var a={1,3,4,6,8,9} #strands at top left
-var b={2,3,4,7,8,9} #strands at top right
-var c={1,2,3,4,6,7,8,9} #non-empty
-var d={1,2,3,4,6,7,8,9} #non-empty
-var e={1,2,3,4,6,7,8,9} #non-empty
-var f={0,2,5,7} #no strands at top left
-var g={0,1,5,6} #no strands at top right
-var h={0,1,2,3,4,5,6,7,8,9} #anything
-
-
-0,0,a,b,0,8 #two inputs
-0,0,a,g,0,2 #no strand from left
-0,0,f,b,0,1 #no strand from right
-0,0,c,d,0,5 #other inputs
-0,c,0,0,h,5 # "repair" bricks in the first row
-0,h,0,0,c,5 # "repair" bricks in the first row
-#anything else stays as is
-
+# do nothing
 
 
 
 @NAMES
-
 
 # these state names are not yet used by Golly
 0 dead (off the board)
