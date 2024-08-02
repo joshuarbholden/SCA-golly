@@ -1,4 +1,4 @@
-@RULE SCA45-test
+@RULE TCA45-test
 
 
 Testing Triaxial Cellular automata rules on the diamond grid.  
