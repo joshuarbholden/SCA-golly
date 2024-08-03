@@ -40,12 +40,12 @@ var h={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #anything
 
 
 0,0,a,fg,b,0,0,8 #left and right inputs
-0,0,a,fg,g,0,0,2 #right only
-0,0,f,fg,b,0,0,1 #left only
+0,0,a,fg,gg,0,0,2 #right only
+0,0,ff,fg,b,0,0,1 #left only
 0,0,f,ab,gg,0,0,10 #center only
 0,0,ff,ab,g,0,0,10 #center only
-0,0,f,ab,b,0,0,11 #left and center
-0,0,a,ab,g,0,0,12 #right and center
+0,0,ff,ab,b,0,0,11 #left and center
+0,0,a,ab,gg,0,0,12 #right and center
 0,0,a,ab,b,0,0,18 #all three
 0,0,c,d,e,0,0,5 #other inputs
 0,c,0,0,0,h,0,5 # "repair" bricks in the first row
