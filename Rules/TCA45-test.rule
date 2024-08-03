@@ -25,12 +25,14 @@ neighborhood:hexagonal
 symmetries:none
 var z={0,5} #empty cells
 var y={0,5} #empty cells
-var a={1,3,4,6,8,9} #strands at top left
-var b={2,3,4,7,8,9} #strands at top right
-var c={1,2,3,4,6,7,8,9} #non-empty
-var d={1,2,3,4,6,7,8,9} #non-empty
-var e={1,2,3,4,6,7,8,9} #non-empty
+var a={1,3,4,6,8,9,11,13,16,18,19} #strands at top left
+var ab={10,11,12,13,14,16,17,18,19} #strands at top center
+var b={2,3,4,7,8,9,12,14,17,18,19} #strands at top right
+var c={1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #non-empty
+var d={1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #non-empty
+var e={1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #non-empty
 var f={0,2,5,7} #no strands at top left
+car fg={}  #no strands at top center
 var g={0,1,5,6} #no strands at top right
 var h={0,1,2,3,4,5,6,7,8,9} #anything
 
@@ -65,7 +67,7 @@ var h={0,1,2,3,4,5,6,7,8,9} #anything
 12 right, center upright
 13 center over left slanted (I over S) 
 14 center over right slanted (I over Z)
-15 unused?
+15 left, center, right, upright
 16 left over center slanted (S over I)
 17 right over center slanted (Z over I)
 18 left, center, right slanted (S over I over Z)
