@@ -31,10 +31,10 @@ var b={2,3,4,7,8,9,12,14,17,18,19} #strands at top right
 var c={1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #non-empty
 var d={1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #non-empty
 var e={1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #non-empty
-var f={0,2,5,7} #no strands at top left
-car fg={}  #no strands at top center
-var g={0,1,5,6} #no strands at top right
-var h={0,1,2,3,4,5,6,7,8,9} #anything
+var f={0,2,5,7,10,12,14,17} #no strands at top left
+car fg={0,1,2,3,4,5,6,7,8,9}  #no strands at top center
+var g={0,1,5,6,10,11,13,16} #no strands at top right
+var h={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19} #anything
 
 
 0,0,a,0,b,0,0,8 #two inputs
