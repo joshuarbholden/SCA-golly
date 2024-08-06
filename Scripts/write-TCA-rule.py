@@ -22,24 +22,27 @@ def setupruletable (crossingrule, turningrule):
     for i in states:
         for j in states:
             for k in states:
-                if not(("R" in i[0]) or ("L" in k[0])):
+                if not(("R" in i[0]) or ("C" in j[0]) or ("L" in k[0])):
                     Rules[i, j, k] = () #nothing pointing into the cell
-                elif ("R" in i[0]) and ("L" not in k[0]):
+                elif ("R" in i[0]) and ("C" not in j[0]) and ("L" not in k[0]):
                     Rules[i, j, k] = ("R",) #only right pointing into the cell
-                elif ("R" not in i[0]) and ("L" in k[0]):
+                elif ("R" not in i[0]) and ("C" not in j[0]) and ("L" in k[0]):
                     Rules[i, j, k] = ("L",) #only left pointing into the cell  
-                else: #both pointing into the cell, deal with crossing first
+                elif ("R" not in i[0]) and ("C" in j[0]) and ("L" not in k[0]):
+                    Rules[i, j, k] = ("C",) #only center pointing into the cell  
+                else: #multiple pointing into the cell, deal with crossing first
                     itrin = [("L","R"),("R",),("R","L")].index(i[0])
                         #set itrin to 0, 1, 2 depending on left
+                        #set jtrin to 0, 1, 2 depending on center
                     ktrin = [("R","L"),("L",),("L","R")].index(k[0])
                         #set ktrin to 0, 1, 2 depending on right
                     if (i[1] == "u"):
                         itrin = 1 #non-crosssing
                     if (k[1] == "u"):
                         ktrin = 1 #non-crossing
-                    iktrin = 3 * itrin + ktrin #0 to 8
-                    if iktrin < 0 or 8 < iktrin:
-                        raise
+                    ijktrin = (9 * itrin + 3 * jtrin + ktrin) #0 to 26
+                    if ijktrin < 0 or 27 <= ijktrin:
+                        raise Exception("Error parsing crossing status")
                     if bincrossrule[iktrin] == "0": 
                         Rules[i, j, k] = ("L","R")
                     elif bincrossrule[iktrin] == "1":
