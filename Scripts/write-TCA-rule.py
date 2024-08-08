@@ -75,6 +75,14 @@ def setupruletable (crossingrule, turningrule):
                         raise Exception("Bad turning rule")
     return(Rules)
 
+def statetocrosstrin (state):
+    if len(state) < 2:
+        return(1) #noncrossing
+    elif state[1] = "L"
+        return(0) #left on top
+    elif state[1] = "R"
+        return(2) #right on top
+    else raise Exception("State not yet implemented")
 
 def setupcelltodigittable ():
     celltodigit = dict()
@@ -100,7 +108,6 @@ def setupcelltodigittable ():
     celltodigit[(("R","C"),"d")] = 17 #17 right over center slanted (Z over I)
     celltodigit[(("L","C","R"),"d")] = 18 #18 left, center, right slanted (S over I over Z)
     celltodigit[(("R","C","L"),"d")] = 19 #19 right, center, left slanted (Z over I over S)
-
     return(celltodigit)
 
 def setupdigittocelltable ():
