@@ -74,7 +74,7 @@ def setupruletable (crossingrule, turningrule):
 
 def setupcelltodigittable ():
     celltodigit = dict()
-    celltodigit[((),"e")] = 10
+    celltodigit[((),"e")] = 5
     celltodigit[(("L",),"u")] = 1
     celltodigit[(("R",),"u")] = 2
     celltodigit[(("L","R"),"u")] = 3
@@ -116,16 +116,16 @@ def writegollyrule (turningrule, crossingrule, brickstring):
     print("symmetries:none", file=outfile)
   #  print("var z={0,5} #dead or dummy cells", file=outfile)
   #  print("var y={0,5} #dead or dummy cells", file=outfile)
-    print("var c={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
-  #  print("var d={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
-  #  print("var e={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
-    print("var h={0,1,2,3,4,5,6,7,8,9,10} #anything\n", file=outfile)
-    print("0,c,0,0,h,5 # "repair" bricks in the first row", file=outfile)
-    print("0,h,0,0,c,5 # "repair" bricks in the first row", file=outfile)
+    print("var c={1,2,3,4,6,7,8,9} #live and not dummy", file=outfile)
+  #  print("var d={1,2,3,4,6,7,8,9} #live and not dummy", file=outfile)
+  #  print("var e={1,2,3,4,6,7,8,9} #live and not dummy", file=outfile)
+    print("var h={0,1,2,3,4,5,6,7,8,9} #anything\n", file=outfile)
+    print("0,c,0,0,h,5 # 'repair' bricks in the first row", file=outfile)
+    print("0,h,0,0,c,5 # 'repair' bricks in the first row", file=outfile)
     for i in range(0, 10):
         for k in range(0, 10):
             if (i !=0) or (k !=0):
-                print("0,%d,%d,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
+                print("0,0,%d,%d,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
     print("#anything else stays as is\n", file=outfile)
     return(outfile.close())
 

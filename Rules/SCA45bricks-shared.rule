@@ -1,4 +1,4 @@
-@RULE SCA45bricks-test
+@RULE SCA45bricks-shared
 
 This file contains the icons shared by all SCAbricks-* rules.
 
