@@ -3,7 +3,7 @@
 
 Testing Stranded Cellular automata rules on the diamond grid.  
 
-Von Neumann neighborhood, but procedes from SE to NW, for compatibility with future 
+Von Neumann neighborhood, but proceeds from SE to NW, for compatibility with future 
 hex version.  ("Brick" grid is rotated 45 degrees CCW to get "diamond" grid, so "Left" 
 is S, "Right" is E.)
 

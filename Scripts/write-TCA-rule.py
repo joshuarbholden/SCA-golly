@@ -157,14 +157,16 @@ def writegollyrule (turningrule, crossingrule, brickstring):
     Rules = setupruletable(crossingrule, turningrule)
     Dtc = setupdigittocelltable()
     Ctd = setupcelltodigittable()
-    filenamestring = g.getdir('rules') + "SCA" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)
+    filenamestring = g.getdir('rules') + "TCA" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)
     outfile = open(filenamestring, 'w')
-    print("@RULE SCA" + brickstring + "-T%dC%d\n" % (turningrule, crossingrule), file=outfile)
+    print("@RULE TCA" + brickstring + "-T%dC%d\n" % (turningrule, crossingrule), file=outfile)
     print("@TABLE\n", file=outfile)
-    print("n_states:11", file=outfile)
-    print("neighborhood:Moore", file=outfile)
+    print("n_states:20", file=outfile)
+    print("neighborhood:hexagonal", file=outfile)
     print("symmetries:none", file=outfile)
-    print("var z={0,5} #dead or dummy cells", file=outfile)
+#still need to fix this next bit!
+'''
+  #  print("var z={0,5} #dead or dummy cells", file=outfile)
   #  print("var y={0,5} #dead or dummy cells", file=outfile)
     print("var c={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
     print("var d={1,2,3,4,6,7,8,9,10} #live and not dummy", file=outfile)
@@ -180,17 +182,19 @@ def writegollyrule (turningrule, crossingrule, brickstring):
     print("0,0,0,0,c,d,e,0,0,0 #malformed", file=outfile)
     print("0,0,0,0,0,d,e,0,0,0 #malformed", file=outfile)
     print("0,0,0,0,c,d,0,0,0,0 #malformed\n", file=outfile) 
-    for i in range(0, 11):
-        for k in range(0, 11):
-            if (i !=0) or (k !=0):
-                print("0,0,0,0,%d,z,%d,0,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
+'''
+    for i in range(0, 20):
+        for j in range(0, 20):
+            for k in range(0, 20):
+                if (i !=0) or (j !=0) or (k !=0):
+                    print("0,0,0,0,%d,z,%d,0,0,%d" % (k, i, Ctd[Rules[Dtc[i], Dtc[0], Dtc[k]]]), file=outfile)
     print("#anything else stays as is\n", file=outfile)
     return(outfile.close())
 
-turningrule = int(g.getstring("Enter the Turning Rule number, from 0 to 511:",
+turningrule = int(g.getstring("Enter the Turning Rule number, from 0 to 134217727:",
                   "0", "SCA Turning Rule"))
                   
-crossingrule = int(g.getstring("Enter the Crossing Rule number, from 0 to 511:",
+crossingrule = int(g.getstring("Enter the Crossing Rule number, from 0 to 134217727:",
                   "0", "SCA Crossing Rule"))
 
 showbricks = (g.getstring("Would you like to show the brick boundaries (y/N)?",
@@ -202,5 +206,5 @@ else:
     brickstring = ""
 writegollyrule(turningrule, crossingrule, brickstring)
   
-g.setrule("SCA" + brickstring + "-T%dC%d" % (turningrule, crossingrule))
-g.show('Created '+"SCA" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule.')
+g.setrule("TCA" + brickstring + "-T%dC%d" % (turningrule, crossingrule))
+g.show('Created '+"TCA" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule.')
