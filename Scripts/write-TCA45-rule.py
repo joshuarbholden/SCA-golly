@@ -1,13 +1,14 @@
-# Implements Stranded Cellular Automata (first defined in https://archive.bridgesmathart.org/2016/bridges2016-127.html) in Golly.
+# Implements Triaxial Cellular Automata in Golly.
 #
-# Rules/SCA-shared.rule should be in your personal rule directory.
-# Scripts/write-SCA-rule.py takes a turning rule number and a crossing
+#
+# Rules/TCA45-shared.rule and/or Rules/TCA45bricks-shared.rule should be in your personal rule directory.
+# Scripts/write-TCA45-rule.py takes a turning rule number and a crossing
 # rule number, generates a Golly rule file in your personal rule
 # directory, and then loads it up.
+# 
+# Diamond grid simulating hexagonal neighborhood, proceeds from SE to NW.
 #
 # contact:  holden@rose-hulman.edu
-
-
 
 import golly as g
 
@@ -93,9 +94,11 @@ def setupruletable (crossingrule, turningrule):
                     ijktrin = (9 * itrin + 3 * jtrin + ktrin) #0 to 26
                     if ijktrin < 0 or 27 <= ijktrin:
                         raise Exception("Error parsing turning status")
-                    if binturnrule[ijktrin] == "0":
+                    if ( (binturnrule[ijktrin] == "0")
+                         or (Rules[i,j,k] == ("C",)) ):
+                        # special case; may need to change if more angles allowed?
                         Rules[i,j,k] = (reflectstate(Rules[i,j,k]),"u")
-                    elif binturnrule[iktrin] == "1":
+                    elif binturnrule[ijktrin] == "1":
                         Rules[i, j, k] = (Rules[i, j, k],"d")
                     else:
                         raise Exception("Bad turning rule")
@@ -114,6 +117,7 @@ def setupcelltodigittable ():
     celltodigit[(("L","R"),"d")] = 8 #8 left, right slanted (S over Z)
     celltodigit[(("R","L"),"d")] = 9 #9 right, left slanted (Z over S)
     celltodigit[(("C",),"u")] = 10  #10 center upright
+    celltodigit[(("C",),"d")] = 10  #10 center upright JUST IN CASE!
     celltodigit[(("L","C"),"u")] = 11 #11 left, center upright
     celltodigit[(("C","L"),"u")] = 11 #11 left, center upright JUST IN CASE!
     celltodigit[(("C","R"),"u")] = 12 #12 right, center upright
@@ -175,16 +179,16 @@ def writegollyrule (turningrule, crossingrule, brickstring):
     for i in range(0, 20):
         for j in range(0, 20):
             for k in range(0, 20):
-                if (i !=0) or (j !=0) or (k !=0):
+                if (i !=0) or (k !=0):
                     print("0,0,%d,%d,%d,0,0,%d" % (k, j, i, Ctd[Rules[Dtc[i], Dtc[j], Dtc[k]]]), file=outfile)
     print("#anything else stays as is\n", file=outfile)
     return(outfile.close())
 
 turningrule = int(g.getstring("Enter the Turning Rule number, from 0 to 134217727:",
-                  "0", "SCA Turning Rule"))
+                  "0", "TCA Turning Rule"))
                   
 crossingrule = int(g.getstring("Enter the Crossing Rule number, from 0 to 134217727:",
-                  "0", "SCA Crossing Rule"))
+                  "0", "TCA Crossing Rule"))
 
 showbricks = (g.getstring("Would you like to show the brick boundaries (y/N)?",
                           "N", "Brick Boundaries")).upper()[0]
