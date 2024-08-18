@@ -143,6 +143,8 @@ if (showbricks == "Y"):
 else:
     brickstring = ""
 writegollyrule(turningrule, crossingrule, brickstring)
+
+width = int(g.getstring("This time only, load the rule at what width (0 for infinite)?", "0", "Width"))
   
-g.setrule("SCA45" + brickstring + "-T%dC%d" % (turningrule, crossingrule))
-g.show('Created '+"SCA45" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule.')
+g.setrule("SCA45" + brickstring + "-T%dC%d:T%d,1000000+%d" % (turningrule, crossingrule, width, width))
+g.show('Created '+"SCA45" + brickstring + "-T%dC%d.rule" % (turningrule, crossingrule)+' and selected that rule with bounded grid T%d,1000000+%d.' % (width,width))
