@@ -185,10 +185,10 @@ def writegollyrule (turningrule, crossingrule, brickstring):
     return(outfile.close())
 
 turningrule = int(g.getstring("Enter the Turning Rule number, from 0 to 134217727:",
-                  "0", "TCA Turning Rule"))
+                  "0", "TCA Turning Rule")) % (2**27)
                   
 crossingrule = int(g.getstring("Enter the Crossing Rule number, from 0 to 134217727:",
-                  "0", "TCA Crossing Rule"))
+                  "0", "TCA Crossing Rule")) % (2**27)
 
 showbricks = (g.getstring("Would you like to show the brick boundaries (y/N)?",
                           "N", "Brick Boundaries")).upper()[0]
