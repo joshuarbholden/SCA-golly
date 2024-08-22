@@ -52,12 +52,12 @@ symmetries:none
 11 255 255 255 white
 12 255 255 255 white
 13   0 255   0 green
-14   0 255   0 green
+14 255 255   0 yellow
 15 255 255 255 white
 16 255   0   0	red
 17   0 255 255	cyan
-18 255 127   0 orange
-19 255 255   0 yellow
+18  255   0   0	red
+19   0 255 255	cyan
 
 @ICONS
 
