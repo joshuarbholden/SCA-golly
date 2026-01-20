@@ -40,16 +40,21 @@ var v={2,4,8}
 var x={0,6}
 var y={0,5}
 
+
+#C,N,NE,E,SE,S,SW,W,NW,C'
 0,h,p,x,m,t,j,k,l,4  # cross or / below left
 0,h,p,s,m,y,j,k,l,4  # cross or \ below right
 0,j,k,3,l,3,m,n,h,9  # from below both, crossing
 0,j,k,p,l,3,m,n,h,6  # from below left
+5,j,k,p,l,3,m,n,h,9  # from below left, change \ to X
 0,j,k,3,l,p,m,n,h,5  # from below right
+6,j,k,3,l,p,m,n,h,9  # from below right, change / to X
 
-0,0,0,0,0,0,0,9,4,3  # cross above left, n above
+0,j,k,l,m,n,p,9,q,3  # cross above left, n or un above
 0,j,k,l,m,n,p,9,h,1  # cross above left, other above
-0,9,0,0,0,0,0,0,4,3  # cross above right, n above
+0,9,j,k,l,m,n,p,q,3  # cross above right, n or un above
 0,9,j,k,l,m,n,p,h,2  # cross above right, other above
+0,u,j,k,l,m,n,v,h,9	 # from above both, crossing
 0,u,j,k,l,m,n,p,h,6  # from above right, straight
 5,u,j,k,l,m,n,p,h,9  # from above right, change \ to X
 0,j,k,l,m,n,p,v,h,5  # from above left, straight
@@ -84,11 +89,11 @@ var y={0,5}
 3 255 255 255   white
 4 255 255 255   white
 5 255 255 255   white
-6 255   0   0	red
-7   0 255 255	cyan 
+6 255 255 255   white
+7 255	0   0	red
 8 255	0   0	red
 9   0 255 255	cyan
-10 255 255 255   white
+10  0 255 255	cyan
 
 @ICONS
 
