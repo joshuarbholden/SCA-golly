@@ -35,8 +35,8 @@ var q={4,8} #includes n
 var r={3,8} #includes u
 var s={5,9,10} #includes \
 var t={6,9,10} #includes /
-var u={1,4,8}
-var v={2,4,8}
+var u={1,4,7,8}
+var v={2,4,7,8}
 var x={0,6}
 var y={0,5}
 var a={3,6} #from below left
@@ -55,10 +55,15 @@ var X={9,10} #cross, any twist
 6,j,k,b,l,p,m,n,9,10  # from below right, change / to X, opposite twist
 6,j,k,b,l,p,m,n,h,9  # from below right, change / to X
 
-0,j,k,l,m,n,p,X,q,3  # cross above left, n or un above
-0,j,k,l,m,n,p,X,h,1  # cross above left, other above
-0,X,j,k,l,m,n,p,q,3  # cross above right, n or un above
-0,X,j,k,l,m,n,p,h,2  # cross above right, other above
+0,X,h,l,m,n,k,X,j,7  # cross above both
+0,j,c,l,m,n,k,X,q,1  # cross above left, n or un above, nonempty right
+0,j,0,l,m,n,k,X,h,3  # cross above left, other above, empty right
+0,j,0,l,m,n,k,X,q,1  # cross above left, n or un above, empty right
+0,j,c,l,m,n,k,X,h,1  # cross above left, other above, nonempty right
+0,X,n,k,l,m,c,p,q,2  # cross above right, n or un above, nonempty left
+0,X,n,k,l,m,0,p,h,3  # cross above right, other above, empty left
+0,X,n,k,l,m,0,p,q,2  # cross above right, n or un above, empty left
+0,X,n,k,l,m,c,p,h,2  # cross above right, other above, nonempty left
 0,u,j,k,l,m,n,v,9,10	 # from above both, crossing, opposite twist
 0,u,j,k,l,m,n,v,h,9	 # from above both, crossing
 0,u,j,k,l,m,n,p,h,6  # from above right, straight
